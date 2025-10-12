@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:signtalk/components/customAppBar.dart';
 import 'package:signtalk/components/exploreButton.dart';
 import 'package:signtalk/components/infoCard.dart';
+import 'package:signtalk/utils/constants.dart';
+import 'package:lottie/lottie.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -10,7 +12,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           // ===== MAIN CONTENT WITH BACKGROUND IMAGE =====
@@ -19,9 +21,9 @@ class Home extends StatelessWidget {
               children: [
                 // Background Image
                 Positioned.fill(
-                  child: Image.asset(
-                    "assets/images/signtalk_girl.jpg",
-                    fit: BoxFit.cover, // fills entire background
+                  child: Lottie.asset(
+                    'assets/lotties/Conversation.json',
+                    height: 200,
                   ),
                 ),
 
@@ -46,50 +48,37 @@ class Home extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "HANDS SPEAK",
-                                      style: TextStyle(
-                                        fontSize: 42,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                        height: 1.2,
-                                      ),
+                                    Text(
+                                      "Hands Speak",
+                                      style: FontsConstant.headingMedium
+                                          .copyWith(fontSize: 42),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         left: 100.0,
                                       ),
                                       child: Row(
-                                        children: const [
+                                        children: [
                                           Text(
-                                            "GAPS ",
-                                            style: TextStyle(
-                                              fontSize: 42,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black87,
-                                              height: 1.2,
-                                            ),
+                                            "Bridge ",
+                                            style: FontsConstant.headingMedium
+                                                .copyWith(fontSize: 42),
                                           ),
                                           Text(
-                                            "CLOSE",
-                                            style: TextStyle(
-                                              fontSize: 42,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.brown,
-                                              height: 1.2,
-                                            ),
+                                            "Gaps",
+                                            style: FontsConstant.headingMedium
+                                                .copyWith(
+                                                  fontSize: 42,
+                                                  color: ColorsConstant.primary,
+                                                ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    const Text(
-                                      "CARE FLOWS",
-                                      style: TextStyle(
-                                        fontSize: 42,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                        height: 1.2,
-                                      ),
+                                    Text(
+                                      "Care Flows",
+                                      style: FontsConstant.headingMedium
+                                          .copyWith(fontSize: 42),
                                     ),
                                   ],
                                 ),
@@ -104,31 +93,14 @@ class Home extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
+                                  Text(
                                     "Bridging communication gaps between \ndoctors and hearing/speech-impaired patients \nfor inclusive healthcare in Ghana.",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black54,
+                                    style: FontsConstant.headingMedium.copyWith(
+                                      color: ColorsConstant.extra,
                                     ),
                                   ),
 
-                                  exploreButton(),
-
-                                  // ElevatedButton.icon(
-                                  //   onPressed: () {},
-                                  //   style: ElevatedButton.styleFrom(
-                                  //     backgroundColor: Colors.lightBlueAccent,
-                                  //     padding: const EdgeInsets.symmetric(
-                                  //       horizontal: 24,
-                                  //       vertical: 16,
-                                  //     ),
-                                  //     shape: RoundedRectangleBorder(
-                                  //       borderRadius: BorderRadius.circular(30),
-                                  //     ),
-                                  //   ),
-                                  //   icon: const Icon(Icons.play_arrow),
-                                  //   label: const Text("Explore Your Mind"),
-                                  // ),
+                                  //  exploreButton(),
                                 ],
                               ),
                             ),
@@ -155,6 +127,12 @@ class Home extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             InfoCard(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/hospitalListing',
+                                );
+                              },
                               title: "Patient",
                               subtitle:
                                   "Find the nearest hospital that uses SignTalk for sign language interpretation.",
@@ -162,6 +140,9 @@ class Home extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             InfoCard(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/demoPage');
+                              },
                               title: "Education",
                               subtitle:
                                   "Learn with SignTalk, anytime, anywhere.",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signtalk/utils/constants.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
@@ -22,7 +23,7 @@ class InfoCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2),
@@ -31,29 +32,23 @@ class InfoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: FontsConstant.headingLarge),
             const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
-            ),
+            Text(subtitle, style: FontsConstant.bodyMedium),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: onPressed ?? () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[50],
+                  backgroundColor: ColorsConstant.secondary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: Text(
                   buttonName,
-                  style: const TextStyle(color: Colors.black),
+                  style: FontsConstant.bodyMedium.copyWith(color: Colors.white),
                 ),
               ),
             ),
