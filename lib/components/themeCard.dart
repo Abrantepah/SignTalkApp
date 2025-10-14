@@ -6,12 +6,14 @@ class ThemeCard extends StatefulWidget {
   final String image;
   final String title;
   final String description;
+  final String category;
 
   const ThemeCard({
     super.key,
     required this.image,
     required this.title,
     required this.description,
+    required this.category,
   });
 
   @override
@@ -32,7 +34,9 @@ class _ThemeCardState extends State<ThemeCard> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Translation()),
+              MaterialPageRoute(
+                builder: (context) => Translation(category: widget.category),
+              ),
             );
           },
           child: AnimatedContainer(

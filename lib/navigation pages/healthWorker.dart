@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/components/customAppBar.dart';
-import 'package:signtalk/components/ThemeCard.dart';
+import 'package:signtalk/components/themeCard.dart';
+
 import 'package:signtalk/utils/constants.dart';
 
 class Department {
   final String image;
   final String title;
   final String description;
+  final String category;
 
   Department({
     required this.image,
     required this.title,
     required this.description,
+    required this.category,
   });
 }
 
@@ -24,36 +27,42 @@ class Healthworker extends StatelessWidget {
       title: "OPD Visit",
       description:
           "Outpatient Department visits provide first-level consultations, basic diagnosis, and treatments without admission.",
+      category: "opd",
     ),
     Department(
       image: "assets/images/ANC.jpg",
       title: "Maternity Care & ANC",
       description:
           "Antenatal and maternity care services ensure safe pregnancy, childbirth, and postnatal support for mothers and babies.",
+      category: "maternity",
     ),
     Department(
       image: "assets/images/pharmacy.jpg",
       title: "Pharmacy",
       description:
           "The pharmacy provides prescribed medications, health advice, and guidance on safe drug use.",
+      category: "pharmacy",
     ),
     Department(
       image: "assets/images/radiology.jpg",
       title: "Radiology",
       description:
           "Radiology offers imaging services like X-rays and ultrasounds for accurate diagnosis and treatment planning.",
+      category: "radiology",
     ),
     Department(
       image: "assets/images/child_welfare.jpg",
       title: "Child Welfare Clinic",
       description:
           "This clinic focuses on child immunization, growth monitoring, and nutrition education for parents.",
+      category: "child_welfare",
     ),
     Department(
       image: "assets/images/laboratory.jpg",
       title: "Laboratory",
       description:
           "The laboratory conducts diagnostic tests and screenings to assist doctors in effective medical evaluation.",
+      category: "laboratory",
     ),
   ];
 
@@ -109,6 +118,7 @@ class Healthworker extends StatelessWidget {
                               image: dept.image,
                               title: dept.title,
                               description: dept.description,
+                              category: dept.category,
                             );
                           },
                         ),

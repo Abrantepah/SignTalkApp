@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
@@ -16,6 +17,7 @@ class TextToSignProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 📝 Send text to backend
   Future<void> sendText(String text) async {
     _setLoading(true);
     try {
@@ -27,7 +29,8 @@ class TextToSignProvider with ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<void> sendAudio(File audioFile) async {
+  /// 🎤 Send audio (works with File or XFile)
+  Future<void> sendAudio(dynamic audioFile) async {
     _setLoading(true);
     try {
       _apiResponse = await ApiService.sendAudio(audioFile);
@@ -38,6 +41,7 @@ class TextToSignProvider with ChangeNotifier {
     _setLoading(false);
   }
 
+  /// 🧹 Clear previous API response
   void clearResponse() {
     _apiResponse = null;
     notifyListeners();

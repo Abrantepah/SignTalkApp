@@ -62,14 +62,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: ColorsConstant.secondary,
+              backgroundColor: ColorsConstant.tertiary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
             child: const Text(
               "HELP US GROW",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           const SizedBox(width: 40),
