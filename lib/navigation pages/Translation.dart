@@ -36,7 +36,7 @@ class _TranslationState extends State<Translation> {
   bool _isVideoReady = false;
   bool _isVideoLoading = false;
 
-  String backendBaseUrl = 'http://127.0.0.1:8000';
+
   final List<Map<String, dynamic>> _messages = [];
 
   @override
@@ -103,7 +103,7 @@ class _TranslationState extends State<Translation> {
     try {
       setState(() => _isVideoLoading = true);
 
-      final fullUrl = backendBaseUrl + relativePath;
+      final fullUrl = ApiConstants.baseMediaUrl + relativePath;
 
       // Dispose camera before showing video
       if (_isCameraInitialized) {
@@ -121,7 +121,7 @@ class _TranslationState extends State<Translation> {
         _isVideoLoading = false;
       });
     } catch (e) {
-      print("🎥 Video load error: $e");
+     
       setState(() => _isVideoLoading = false);
     }
   }

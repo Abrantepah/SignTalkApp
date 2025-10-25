@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ApiConstants {
-  static const String baseUrl = "http://127.0.0.1:8000/api";
-  static const String textAudioToSign = '/text-audio-to-sign/';
-  static const String signToText = '/sign-to-text/';
+  static const String baseUrl = "https://signtalkgh.com/api";
+  static const String baseMediaUrl = "https://signtalkgh.com";
+  static const String textAudioToSign = "/text-audio-to-sign/";
+  static const String signToText = "/sign-to-text/";
 }
+
 
 class ColorsConstant {
   static const Color extra = Color(0xFF1A3A5B);
