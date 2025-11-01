@@ -13,7 +13,6 @@ import 'package:signtalk/components/customAppBar.dart';
 import 'package:signtalk/components/loadingPage.dart';
 import 'package:signtalk/providers/sign2text.dart';
 import 'package:signtalk/providers/text2sign.dart';
-import 'package:signtalk/components/toggle_button.dart';
 
 // NOTE: This file expects the following to exist in your project:
 // - AudioRecorder, RecordConfig, AudioEncoder (from 'record' package or your wrapper)

@@ -50,7 +50,7 @@ class _HospitalMapPageState extends State<HospitalMapPage> {
       if (kIsWeb) {
         final completer = Completer<LatLng>();
         html.window.navigator.geolocation
-            ?.getCurrentPosition()
+            .getCurrentPosition()
             .then((position) {
               userLoc = LatLng(
                 (position.coords?.latitude ?? 0).toDouble(),
@@ -130,8 +130,9 @@ class _HospitalMapPageState extends State<HospitalMapPage> {
 
         // Avoid duplicate hospital
         if ((lat - widget.latitude).abs() < 0.0001 &&
-            (lng - widget.longitude).abs() < 0.0001)
+            (lng - widget.longitude).abs() < 0.0001) {
           continue;
+        }
 
         markers.add(
           Marker(

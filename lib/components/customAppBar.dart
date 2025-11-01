@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/utils/constants.dart';
-import 'package:signtalk/components/app_side_drawer.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -33,9 +32,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         // ✅ Mobile shows menu icon ➜ opens drawer
         // ✅ Desktop shows full menu
-        actions: isMobile
-            ? _buildMobileMenu(context)
-            : _buildDesktopMenu(context),
+        actions:
+            isMobile ? _buildMobileMenu(context) : _buildDesktopMenu(context),
       ),
     );
   }
@@ -46,11 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () => Navigator.pushNamed(context, '/'),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/signtalklogo.png",
-            height: 50,
-            width: 50,
-          ),
+          Image.asset("assets/images/signtalklogo.png", height: 50, width: 50),
           const SizedBox(width: 5),
           Text(
             "SignTalk",
@@ -100,13 +94,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   List<Widget> _buildMobileMenu(BuildContext context) {
     return [
       Builder(
-        builder: (context) => IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () {
-            Scaffold.of(context).openEndDrawer(); 
-            // ✅ Drawer opens from right (use openDrawer() for left)
-          },
-        ),
+        builder:
+            (context) => IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black),
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+                // ✅ Drawer opens from right (use openDrawer() for left)
+              },
+            ),
       ),
     ];
   }
