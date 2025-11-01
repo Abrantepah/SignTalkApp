@@ -15,32 +15,28 @@ class Home extends StatelessWidget {
       endDrawer: const AppSideDrawer(),
       backgroundColor: Colors.white,
       body: LayoutBuilder(
-    builder: (context, constraints) {
-    final isMobile = constraints.maxWidth < 800;
+        builder: (context, constraints) {
+          final isMobile = constraints.maxWidth < 800;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: isMobile 
-          ? _buildMobileLayout(context)
-          : _buildDesktopLayout(context),
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body:
+                isMobile
+                    ? _buildMobileLayout(context)
+                    : _buildDesktopLayout(context),
+          );
+        },
+      ),
     );
-  },
-)
-
-      );
   }
 }
-
 
 Widget _buildMobileLayout(BuildContext context) {
   return SingleChildScrollView(
     child: Column(
       children: [
         // Smaller Lottie animation
-        Lottie.asset(
-          'assets/lotties/Conversation.json',
-          height: 180,
-        ),
+        Lottie.asset('assets/lotties/Conversation.json', height: 180),
 
         const SizedBox(height: 20),
 
@@ -56,12 +52,18 @@ Widget _buildMobileLayout(BuildContext context) {
               ),
               Text(
                 "Bridge Gaps",
-                style: FontsConstant.headingMedium.copyWith(fontSize: 20, color: ColorsConstant.extra),
+                style: FontsConstant.headingMedium.copyWith(
+                  fontSize: 20,
+                  color: ColorsConstant.extra,
+                ),
               ),
-              
+
               Text(
                 "Care Flows",
-                style: FontsConstant.headingMedium.copyWith(fontSize: 20, color: ColorsConstant.primary),
+                style: FontsConstant.headingMedium.copyWith(
+                  fontSize: 20,
+                  color: ColorsConstant.primary,
+                ),
               ),
             ],
           ),
@@ -77,7 +79,6 @@ Widget _buildMobileLayout(BuildContext context) {
             style: FontsConstant.headingMedium.copyWith(
               fontSize: 12,
               color: ColorsConstant.extra,
-
             ),
           ),
         ),
@@ -95,16 +96,17 @@ Widget _buildMobileLayout(BuildContext context) {
                 subtitle:
                     "Use SignTalk to communicate with hearing/speech-impaired patients.",
                 buttonName: "Let's Talk",
-                 isMobile: true
+                isMobile: true,
               ),
               const SizedBox(height: 20),
               InfoCard(
-                onPressed: () => Navigator.pushNamed(context, '/hospitalListing'),
+                onPressed:
+                    () => Navigator.pushNamed(context, '/hospitalListing'),
                 title: "Patient",
                 subtitle:
                     "Find the nearest hospital that uses SignTalk for sign language interpretation.",
                 buttonName: "Find Hospital",
-                 isMobile: true
+                isMobile: true,
               ),
               const SizedBox(height: 20),
               InfoCard(
@@ -112,7 +114,7 @@ Widget _buildMobileLayout(BuildContext context) {
                 title: "Education",
                 subtitle: "Learn with SignTalk, anytime, anywhere.",
                 buttonName: "Start Learning",
-                 isMobile: true
+                isMobile: true,
               ),
             ],
           ),
@@ -123,7 +125,6 @@ Widget _buildMobileLayout(BuildContext context) {
     ),
   );
 }
-
 
 Widget _buildDesktopLayout(BuildContext context) {
   return CustomScrollView(
@@ -157,8 +158,9 @@ Widget _buildDesktopLayout(BuildContext context) {
                               children: [
                                 Text(
                                   "Hands Speak",
-                                  style: FontsConstant.headingMedium
-                                      .copyWith(fontSize: 42),
+                                  style: FontsConstant.headingMedium.copyWith(
+                                    fontSize: 42,
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 100),
@@ -173,17 +175,18 @@ Widget _buildDesktopLayout(BuildContext context) {
                                         "Gaps",
                                         style: FontsConstant.headingMedium
                                             .copyWith(
-                                          fontSize: 42,
-                                          color: ColorsConstant.extra,
-                                        ),
+                                              fontSize: 42,
+                                              color: ColorsConstant.extra,
+                                            ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Text(
                                   "Care Flows",
-                                  style: FontsConstant.headingMedium
-                                      .copyWith(fontSize: 42),
+                                  style: FontsConstant.headingMedium.copyWith(
+                                    fontSize: 42,
+                                  ),
                                 ),
                               ],
                             ),
@@ -217,8 +220,9 @@ Widget _buildDesktopLayout(BuildContext context) {
                     child: Column(
                       children: [
                         InfoCard(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/healthWorker'),
+                          onPressed:
+                              () =>
+                                  Navigator.pushNamed(context, '/healthWorker'),
                           title: "Health Worker",
                           subtitle:
                               "Use SignTalk to communicate with hearing/speech-impaired patients.",
@@ -226,8 +230,8 @@ Widget _buildDesktopLayout(BuildContext context) {
                         ),
                         const SizedBox(height: 20),
                         InfoCard(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/hospitalListing'),
+                          onPressed: () {},
+                          // Navigator.pushNamed(context, '/hospitalListing'),
                           title: "Patient",
                           subtitle:
                               "Find the nearest hospital that uses SignTalk for sign language interpretation.",
@@ -235,11 +239,11 @@ Widget _buildDesktopLayout(BuildContext context) {
                         ),
                         const SizedBox(height: 20),
                         InfoCard(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/demoPage'),
+                          onPressed: () {},
+                          // onPressed: () =>
+                          //     Navigator.pushNamed(context, '/demoPage'),
                           title: "Education",
-                          subtitle:
-                              "Learn with SignTalk, anytime, anywhere.",
+                          subtitle: "Learn with SignTalk, anytime, anywhere.",
                           buttonName: "Start Learning",
                         ),
                       ],

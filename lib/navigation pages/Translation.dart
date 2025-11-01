@@ -476,43 +476,45 @@ class _TranslationState extends State<Translation> {
           ),
         ),
 
-        // RIGHT SIDE (CHAT PANEL)
+        // RIGHT SIDE (CHAT PANEL) — added ConstrainedBox to prevent collapse on web
         Expanded(
           flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(left: BorderSide(color: Colors.grey.shade300)),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header row with title and toggle
-                    // Header row with title and toggle
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          child: const Text(
-                            "Chatbot",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: 320),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header row with title and mode-label (no Positioned)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: const Text(
+                              "Chatbot",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: // Mode label bottom-left (from Translation)
-                              Positioned(
-                            left: 16,
-                            bottom: 90,
+                          // Mode label moved into a normal container (was incorrectly Positioned)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
@@ -536,119 +538,128 @@ class _TranslationState extends State<Translation> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    const Divider(height: 0.5, color: Colors.black12),
-
-                    // Messages list
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          final msg = _messages[index];
-                          final isUser = msg["isUser"] as bool;
-                          return Align(
-                            alignment:
-                                isUser
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 6),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    isUser
-                                        ? ColorsConstant.secondary
-                                        : ColorsConstant.accent,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Column(
-                                crossAxisAlignment:
-                                    isUser
-                                        ? CrossAxisAlignment.end
-                                        : CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    msg["text"] ?? "",
-                                    style: TextStyle(
-                                      color:
-                                          isUser
-                                              ? Colors.white
-                                              : ColorsConstant.textColor,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    msg["time"] ?? "",
-                                    style: TextStyle(
-                                      color:
-                                          isUser
-                                              ? Colors.white70
-                                              : Colors.black54,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    // Input area (TextField with grey background, mic and send)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _controller,
-                              decoration: InputDecoration(
-                                hintText: "Type your message here...",
-                                filled: true,
-                                fillColor: Colors.grey.shade200,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
-                              ),
-                              onTap: () => setState(() => isSignToText = false),
-                              onSubmitted:
-                                  (_) => _sendMessage(
-                                    context.read<TextToSignProvider>(),
-                                  ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CircleAvatar(
-                            backgroundColor: ColorsConstant.extra,
-                            child: IconButton(
-                              icon: const Icon(Icons.send, color: Colors.white),
-                              onPressed:
-                                  () => _sendMessage(
-                                    context.read<TextToSignProvider>(),
-                                  ),
-                            ),
-                          ),
                         ],
                       ),
-                    ),
-                  ],
+
+                      const Divider(height: 0.5, color: Colors.black12),
+
+                      // Messages list — wrapped in Container to ensure ListView has constraints
+                      Expanded(
+                        child: Container(
+                          color: Colors.transparent,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.all(16),
+                            itemCount: _messages.length,
+                            itemBuilder: (context, index) {
+                              final msg = _messages[index];
+                              final isUser = msg["isUser"] as bool;
+                              return Align(
+                                alignment:
+                                    isUser
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 6,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        isUser
+                                            ? ColorsConstant.secondary
+                                            : ColorsConstant.accent,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        isUser
+                                            ? CrossAxisAlignment.end
+                                            : CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        msg["text"] ?? "",
+                                        style: TextStyle(
+                                          color:
+                                              isUser
+                                                  ? Colors.white
+                                                  : ColorsConstant.textColor,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        msg["time"] ?? "",
+                                        style: TextStyle(
+                                          color:
+                                              isUser
+                                                  ? Colors.white70
+                                                  : Colors.black54,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
+                      // Input area (TextField with grey background, mic and send)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                  hintText: "Type your message here...",
+                                  filled: true,
+                                  fillColor: Colors.grey.shade200,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
+                                ),
+                                onTap:
+                                    () => setState(() => isSignToText = false),
+                                onSubmitted:
+                                    (_) => _sendMessage(
+                                      context.read<TextToSignProvider>(),
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundColor: ColorsConstant.extra,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                ),
+                                onPressed:
+                                    () => _sendMessage(
+                                      context.read<TextToSignProvider>(),
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -680,17 +691,64 @@ class _TranslationState extends State<Translation> {
                         child: Builder(
                           builder: (context) {
                             if (isRecording && _isCameraInitialized) {
-                              return CameraPreview(_cameraController!);
+                              // Fill container with camera preview
+                              return SizedBox.expand(
+                                child: FittedBox(
+                                  fit:
+                                      BoxFit
+                                          .cover, // fills the box, may crop edges
+                                  child: SizedBox(
+                                    width:
+                                        _cameraController!
+                                            .value
+                                            .previewSize!
+                                            .height,
+                                    height:
+                                        _cameraController!
+                                            .value
+                                            .previewSize!
+                                            .width,
+                                    child: CameraPreview(_cameraController!),
+                                  ),
+                                ),
+                              );
                             } else if (_isVideoReady &&
                                 _videoController != null) {
-                              return AspectRatio(
-                                aspectRatio:
-                                    _videoController!.value.aspectRatio,
-                                child: VideoPlayer(_videoController!),
+                              // Fill container with video
+                              return SizedBox.expand(
+                                child: FittedBox(
+                                  fit:
+                                      BoxFit
+                                          .cover, // fills the box, may crop edges
+                                  child: SizedBox(
+                                    width: _videoController!.value.size.width,
+                                    height: _videoController!.value.size.height,
+                                    child: VideoPlayer(_videoController!),
+                                  ),
+                                ),
                               );
                             } else if (_isCameraInitialized) {
-                              return CameraPreview(_cameraController!);
+                              // Camera preview (not recording)
+                              return SizedBox.expand(
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: SizedBox(
+                                    width:
+                                        _cameraController!
+                                            .value
+                                            .previewSize!
+                                            .height,
+                                    height:
+                                        _cameraController!
+                                            .value
+                                            .previewSize!
+                                            .width,
+                                    child: CameraPreview(_cameraController!),
+                                  ),
+                                ),
+                              );
                             } else {
+                              // Fallback image
                               return const Image(
                                 image: AssetImage("assets/images/person.jpg"),
                                 fit: BoxFit.cover,
