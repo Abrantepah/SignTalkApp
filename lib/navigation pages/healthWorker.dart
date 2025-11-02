@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signtalk/components/app_side_drawer.dart';
 import 'package:signtalk/components/customAppBar.dart';
 import 'package:signtalk/components/themeCard.dart';
 import 'package:signtalk/utils/constants.dart';
@@ -82,10 +83,15 @@ class Healthworker extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(),
-
+      endDrawer: const AppSideDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
-          horizontal: isDesktop ? 60 : isTablet ? 32 : 16,
+          horizontal:
+              isDesktop
+                  ? 60
+                  : isTablet
+                  ? 32
+                  : 16,
           vertical: 20,
         ),
 
@@ -128,7 +134,11 @@ class Healthworker extends StatelessWidget {
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                     childAspectRatio:
-                        isMobile ? 0.9 : isTablet ? 1.1 : 1.3,
+                        isMobile
+                            ? 0.9
+                            : isTablet
+                            ? 1.1
+                            : 1.3,
                   ),
                   itemBuilder: (context, index) {
                     final dept = departments[index];

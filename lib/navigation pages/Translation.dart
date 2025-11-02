@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:signtalk/components/app_side_drawer.dart';
 import 'package:signtalk/utils/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'package:camera/camera.dart';
@@ -38,6 +39,7 @@ class _TranslationState extends State<Translation> {
   bool _isChatRecording = false;
   bool _isCameraInitialized = false;
   bool _initializingCamera = false;
+  bool _isFullscreen = false;
 
   // Audio & text controllers
   final AudioRecorder _audioRecorder = AudioRecorder();
@@ -48,6 +50,9 @@ class _TranslationState extends State<Translation> {
   VideoPlayerController? _videoController;
   bool _isVideoReady = false;
   bool _isVideoLoading = false;
+
+  List<CameraDescription> _availableCameras = [];
+  int _selectedCameraIndex = 0; // 0 = back, 1 = front (usually)
 
   // Chat messages (desktop)
   final List<Map<String, dynamic>> _messages = [];
@@ -67,18 +72,24 @@ class _TranslationState extends State<Translation> {
     setState(() => _initializingCamera = true);
 
     try {
-      final cameras = await availableCameras();
-      final firstCamera = cameras.first;
+      _availableCameras = await availableCameras();
+
+      // Ensure index is valid
+      if (_selectedCameraIndex >= _availableCameras.length) {
+        _selectedCameraIndex = 0;
+      }
+
+      final camera = _availableCameras[_selectedCameraIndex];
 
       _cameraController = CameraController(
-        firstCamera,
+        camera,
         ResolutionPreset.medium,
         enableAudio: true,
       );
 
       await _cameraController!.initialize();
-      if (!mounted) return;
 
+      if (!mounted) return;
       setState(() => _isCameraInitialized = true);
     } catch (e) {
       if (mounted) {
@@ -99,6 +110,40 @@ class _TranslationState extends State<Translation> {
       setState(() => _isCameraInitialized = false);
     } catch (e) {
       // ignore dispose errors
+    }
+  }
+
+  //switch the mobile view camere modes (back or front)
+  Future<void> _switchCamera() async {
+    if (_initializingCamera || _availableCameras.length < 2) return;
+
+    setState(() => _initializingCamera = true);
+
+    try {
+      // Toggle camera index (0 → 1 → 0)
+      _selectedCameraIndex =
+          (_selectedCameraIndex + 1) % _availableCameras.length;
+
+      // Dispose old controller
+      await _cameraController?.dispose();
+
+      final newCamera = _availableCameras[_selectedCameraIndex];
+
+      _cameraController = CameraController(
+        newCamera,
+        ResolutionPreset.medium,
+        enableAudio: true,
+      );
+
+      await _cameraController!.initialize();
+
+      if (mounted) {
+        setState(() => _isCameraInitialized = true);
+      }
+    } catch (e) {
+      debugPrint("Camera switch error: $e");
+    } finally {
+      setState(() => _initializingCamera = false);
     }
   }
 
@@ -335,6 +380,47 @@ class _TranslationState extends State<Translation> {
     return "$hour:$minute";
   }
 
+  //switch mobiile camera wider
+  Future<void> _switchCameraView() async {
+    if (_initializingCamera) return;
+
+    setState(() => _initializingCamera = true);
+
+    try {
+      // Choose resolution based on fullscreen state
+      final resolution =
+          _isFullscreen
+              ? ResolutionPreset
+                  .medium // normal view
+              : ResolutionPreset.ultraHigh; // wider fullscreen view
+
+      _isFullscreen = !_isFullscreen;
+
+      final cameras = await availableCameras();
+      final firstCamera = cameras.first;
+
+      // Dispose old controller
+      await _cameraController?.dispose();
+
+      // Create new controller with desired resolution
+      _cameraController = CameraController(
+        firstCamera,
+        resolution,
+        enableAudio: true,
+      );
+
+      await _cameraController!.initialize();
+
+      if (mounted) {
+        setState(() => _isCameraInitialized = true);
+      }
+    } catch (e) {
+      debugPrint("Error switching view: $e");
+    } finally {
+      setState(() => _initializingCamera = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Determine mobile vs desktop/tablet
@@ -350,6 +436,7 @@ class _TranslationState extends State<Translation> {
 
     return Scaffold(
       appBar: CustomAppBar(),
+      endDrawer: const AppSideDrawer(),
       backgroundColor: Colors.grey.shade100,
       body:
           isMobile
@@ -779,9 +866,12 @@ class _TranslationState extends State<Translation> {
                   Positioned(
                     top: 20,
                     right: 20,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white.withOpacity(0.9),
-                      child: const Icon(Icons.fullscreen),
+                    child: GestureDetector(
+                      onTap: _switchCameraView,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white.withOpacity(0.9),
+                        child: Icon(Icons.fullscreen, color: Colors.black),
+                      ),
                     ),
                   ),
 
@@ -798,7 +888,7 @@ class _TranslationState extends State<Translation> {
                         color:
                             isSignToText
                                 ? Colors.green.shade700
-                                : Colors.deepPurple.shade700,
+                                : Colors.blue.shade700,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -836,6 +926,13 @@ class _TranslationState extends State<Translation> {
                 color: isRecording ? Colors.red : Colors.green,
                 info: isRecording ? "Stop" : "Sign → Text",
                 onTap: _initializingCamera ? null : _toggleVideoRecording,
+              ),
+              const SizedBox(width: 24),
+              _controlCircle(
+                icon: Icons.cameraswitch,
+                color: Colors.black,
+                info: "Switch Camera",
+                onTap: _initializingCamera ? null : _switchCamera,
               ),
             ],
           ),
