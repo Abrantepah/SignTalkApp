@@ -143,10 +143,10 @@ class Home extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/demoPage');
                               },
-                              title: "Education",
+                              title: "What is SignTalk?",
                               subtitle:
-                                  "Learn with SignTalk, anytime, anywhere.",
-                              buttonName: "Start Learning",
+                                  "Learn more about SignTalk and how it works.",
+                              buttonName: "Watch A Demo",
                             ),
                           ],
                         ),
