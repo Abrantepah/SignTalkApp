@@ -45,5 +45,26 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to your camera to capture video.</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs microphone access for audio recording.</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses your location to show nearby hospitals and directions.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app uses your location to provide accurate navigation services.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs your location for background location services.</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+    	<key>Purpose</key>
+    	<string>This app requires temporary access to your location.</string>
+	</dict>
+
+
 </dict>
 </plist>

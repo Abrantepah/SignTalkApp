@@ -7,9 +7,13 @@ import 'package:signtalk/navigation%20pages/hospitalListing.dart';
 import 'package:signtalk/navigation%20pages/Translation.dart';
 import 'package:signtalk/providers/sign2text.dart';
 import 'package:signtalk/providers/text2sign.dart';
+import 'package:signtalk/services/permission_services.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ Request camera + mic + location
+  await PermissionService.requestAllPermissions();
 
   runApp(
     MultiProvider(
