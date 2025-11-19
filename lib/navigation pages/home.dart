@@ -212,21 +212,46 @@ Widget _buildDesktopLayout(BuildContext context) {
                   ),
                 ),
 
-                // Right panel cards
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, right: 20),
-                    child: Column(
-                      children: [
-                        InfoCard(
-                          onPressed:
-                              () =>
-                                  Navigator.pushNamed(context, '/healthWorker'),
-                          title: "Health Worker",
-                          subtitle:
-                              "Use SignTalk to communicate with hearing/speech-impaired patients.",
-                          buttonName: "Let's Talk",
+                    // ===== RIGHT CARDS =====
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0, right: 20),
+                        child: Column(
+                          children: [
+                            InfoCard(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/healthWorker');
+                              },
+                              title: "Health Worker",
+                              subtitle:
+                                  "Use SignTalk to communicate with hearing/speech-impaired patients.",
+                              buttonName: "Lets Talk",
+                            ),
+                            const SizedBox(height: 20),
+                            InfoCard(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/hospitalListing',
+                                );
+                              },
+                              title: "Patient",
+                              subtitle:
+                                  "Find the nearest hospital that uses SignTalk for sign language interpretation.",
+                              buttonName: "Find Hospital",
+                            ),
+                            const SizedBox(height: 20),
+                            InfoCard(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/demoPage');
+                              },
+                              title: "What is SignTalk?",
+                              subtitle:
+                                  "Learn more about SignTalk and how it works.",
+                              buttonName: "Watch A Demo",
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 20),
                         InfoCard(
