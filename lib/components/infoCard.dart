@@ -6,6 +6,7 @@ class InfoCard extends StatelessWidget {
   final String subtitle;
   final String buttonName;
   final VoidCallback? onPressed;
+  final bool isMobile;
 
   const InfoCard({
     super.key,
@@ -13,10 +14,12 @@ class InfoCard extends StatelessWidget {
     required this.subtitle,
     required this.buttonName,
     this.onPressed,
+    this.isMobile = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -32,7 +35,7 @@ class InfoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: FontsConstant.headingLarge),
+            Text(title, style: isMobile ? FontsConstant.headingMedium: FontsConstant.headingLarge),
             const SizedBox(height: 4),
             Text(subtitle, style: FontsConstant.bodyMedium),
             const SizedBox(height: 12),

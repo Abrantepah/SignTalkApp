@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/navigation%20pages/Translation.dart';
-import 'package:signtalk/utils/constants.dart'; // assuming your constants file is here
+import 'package:signtalk/utils/constants.dart';
 
 class ThemeCard extends StatefulWidget {
   final String image;
@@ -25,108 +25,104 @@ class _ThemeCardState extends State<ThemeCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Translation(category: widget.category),
-              ),
-            );
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut,
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: LinearGradient(
-                colors:
-                    _isHovered
-                        ? [ColorsConstant.primary, ColorsConstant.extra]
-                        : [ColorsConstant.secondary, ColorsConstant.extra],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color:
-                      _isHovered
-                          ? ColorsConstant.primary.withOpacity(0.35)
-                          : ColorsConstant.secondary.withOpacity(0.2),
-                  blurRadius: _isHovered ? 18 : 8,
-                  offset: const Offset(0, 6),
-                ),
-              ],
+    final width = MediaQuery.of(context).size.width;
+    final bool isMobile = width < 600;
+
+    // Card height responsiveness
+    final double cardHeight = isMobile ? 240 : 270;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  Translation(category: widget.category),
             ),
-            child: Transform.scale(
-              scale: _isHovered ? 1.03 : 1.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          widget.image,
-                          height: 120,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          height: 120,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black.withOpacity(0.4),
-                                Colors.transparent,
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          );
+        },
+
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          height: cardHeight,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            gradient: LinearGradient(
+              colors: _isHovered
+                  ? [ColorsConstant.primary, ColorsConstant.extra]
+                  : [ColorsConstant.secondary, ColorsConstant.extra],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(_isHovered ? 0.25 : 0.15),
+                blurRadius: _isHovered ? 16 : 8,
+                offset: const Offset(0, 6),
+              )
+            ],
+          ),
+
+          child: Transform.scale(
+            scale: _isHovered ? 1.02 : 1.0,
+            child: Column(
+              children: [
+                // ✅ Image (fixed height)
+                ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(
+                    widget.image,
+                    height: isMobile ? 280 : 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
-                  Padding(
+                ),
+
+                // ✅ Compact Content Section
+                Expanded(
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 10,
+                      vertical: 8,
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // Title
                         Text(
                           widget.title,
                           textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: FontsConstant.headingMedium.copyWith(
+                            fontSize: isMobile ? 16 : 18,
                             color: ColorsConstant.accent,
                           ),
                         ),
-                        const SizedBox(height: 6),
+
+                        const SizedBox(height: 5),
+
+                        // Description (shortened)
                         Text(
                           widget.description,
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: FontsConstant.bodyMedium.copyWith(
-                            color: ColorsConstant.tertiary.withOpacity(0.9),
+                            fontSize: isMobile ? 12 : 14,
+                            color:
+                                ColorsConstant.tertiary.withOpacity(0.85),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

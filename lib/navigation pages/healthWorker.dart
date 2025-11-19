@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:signtalk/components/app_side_drawer.dart';
 import 'package:signtalk/components/customAppBar.dart';
 import 'package:signtalk/components/themeCard.dart';
-
 import 'package:signtalk/utils/constants.dart';
 
 class Department {
@@ -68,64 +68,89 @@ class Healthworker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    // Breakpoints
+    final bool isMobile = width < 600;
+    final bool isTablet = width >= 600 && width < 1000;
+    final bool isDesktop = width >= 1000;
+
+    // Number of columns for each device
+    int crossAxisCount = 1;
+    if (isTablet) crossAxisCount = 2;
+    if (isDesktop) crossAxisCount = 3;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(),
+      endDrawer: const AppSideDrawer(),
       body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(
+          horizontal:
+              isDesktop
+                  ? 60
+                  : isTablet
+                  ? 32
+                  : 16,
+          vertical: 20,
+        ),
+
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.only(top: 24, bottom: 12),
-              child: Text(
-                "SignTalk for Health Workers",
-                style: FontsConstant.headingLarge.copyWith(
-                  fontSize: 35,
-                  color: ColorsConstant.textColor,
-                ),
+            // ✅ Header
+            Text(
+              "SignTalk for Health Workers",
+              textAlign: TextAlign.center,
+              style: FontsConstant.headingLarge.copyWith(
+                fontSize: isMobile ? 26 : 35,
+                color: ColorsConstant.textColor,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                "Getting medical help should be easy and accessible for everyone.\n"
-                "Choose the department and get started.",
-                textAlign: TextAlign.center,
-                style: FontsConstant.headingMedium.copyWith(
-                  color: ColorsConstant.textColor,
-                ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              "Getting medical help should be easy and accessible for everyone.\n"
+              "Choose the department and get started.",
+              textAlign: TextAlign.center,
+              style: FontsConstant.headingMedium.copyWith(
+                fontSize: isMobile ? 14 : 18,
+                color: ColorsConstant.textColor,
               ),
             ),
+
             const SizedBox(height: 40),
 
-            // Department Cards
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  for (int i = 0; i < departments.length; i += 3)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(
-                          (i + 3 <= departments.length)
-                              ? 3
-                              : departments.length - i,
-                          (index) {
-                            final dept = departments[i + index];
-                            return ThemeCard(
-                              image: dept.image,
-                              title: dept.title,
-                              description: dept.description,
-                              category: dept.category,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+            // ✅ Responsive Grid for Department Cards
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: departments.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    childAspectRatio:
+                        isMobile
+                            ? 0.9
+                            : isTablet
+                            ? 1.1
+                            : 1.3,
+                  ),
+                  itemBuilder: (context, index) {
+                    final dept = departments[index];
+                    return ThemeCard(
+                      image: dept.image,
+                      title: dept.title,
+                      description: dept.description,
+                      category: dept.category,
+                    );
+                  },
+                );
+              },
             ),
 
             const SizedBox(height: 40),
