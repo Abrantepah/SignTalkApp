@@ -51,7 +51,10 @@ class _TranslationState extends State<Translation> {
   bool _isVideoReady = false;
   bool _isVideoLoading = false;
 
+  List<CameraDescription> _availableCameras = [];
+  int _selectedCameraIndex = 0; // 0 = back, 1 = front (usually)
 
+  // Chat messages (desktop)
   final List<Map<String, dynamic>> _messages = [];
 
   // Mobile simplified response area (single string, clears on next send)
@@ -176,7 +179,6 @@ class _TranslationState extends State<Translation> {
         _isVideoLoading = false;
       });
     } catch (e) {
-     
       setState(() => _isVideoLoading = false);
     }
   }
