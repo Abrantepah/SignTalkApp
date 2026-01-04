@@ -10,28 +10,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final bool isMobile = screenWidth < 800; // ✅ breakpoint
 
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: ColorsConstant.tertiary.withOpacity(0.4),
-            blurRadius: 20,
-            spreadRadius: 5,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+      // decoration: BoxDecoration(
+      //   color: Colors.white,
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: ColorsConstant.tertiary.withOpacity(0.4),
+      //       blurRadius: 20,
+      //       spreadRadius: 5,
+      //       offset: const Offset(0, 5),
+      //     ),
+      //   ],
+      // ),
       child: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent, // ✅ transparent
         elevation: 0,
+        scrolledUnderElevation: 0, // ✅ important for Material 3
         surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
         automaticallyImplyLeading: false,
         toolbarHeight: 60,
-
         title: _buildLogo(context),
-
-        // ✅ Mobile shows menu icon ➜ opens drawer
-        // ✅ Desktop shows full menu
         actions:
             isMobile ? _buildMobileMenu(context) : _buildDesktopMenu(context),
       ),
@@ -44,12 +42,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () => Navigator.pushNamed(context, '/'),
       child: Row(
         children: [
-          Image.asset("assets/images/signtalklogo.png", height: 50, width: 50),
+          Image.asset("assets/images/logo1.png", height: 80, width: 80),
           const SizedBox(width: 5),
           Text(
-            "SignTalk",
+            "SignTalkGH",
             style: FontsConstant.headingMedium.copyWith(
-              color: ColorsConstant.primary,
+              color: ColorsConstant.textColor,
+              fontSize: 20,
             ),
           ),
         ],
@@ -60,32 +59,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   // ✅ Desktop menu bar
   List<Widget> _buildDesktopMenu(BuildContext context) {
     return [
-      TextButton(
-        onPressed: () => Navigator.pushNamed(context, '/'),
-        child: Text("Home", style: FontsConstant.bodyMedium),
-      ),
-      TextButton(
-        onPressed: () => Navigator.pushNamed(context, '/technology'),
-        child: Text("Technology", style: FontsConstant.bodyMedium),
-      ),
-      TextButton(
-        onPressed: () => Navigator.pushNamed(context, '/useCases'),
-        child: Text("Use Cases", style: FontsConstant.bodyMedium),
-      ),
-      const SizedBox(width: 20),
-      ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: ColorsConstant.tertiary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        child: const Text(
-          "HELP US GROW",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+      // TextButton(
+      //   onPressed: () => Navigator.pushNamed(context, '/technology'),
+      //   child: Text("Technology", style: FontsConstant.bodyMedium),
+      // ),
+      // TextButton(
+      //   onPressed: () => Navigator.pushNamed(context, '/useCases'),
+      //   child: Text("Use Cases", style: FontsConstant.bodyMedium),
+      // ),
+      // const SizedBox(width: 20),
+      // ElevatedButton(
+      //   onPressed: () {},
+      //   style: ElevatedButton.styleFrom(
+      //     backgroundColor: ColorsConstant.tertiary,
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(10),
+      //     ),
+      //   ),
+      //   child: const Text(
+      //     "HELP US GROW",
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      // ),
       const SizedBox(width: 40),
     ];
   }

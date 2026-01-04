@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signtalk/navigation%20pages/Translation.dart';
+import 'package:signtalk/navigation%20pages/healthWorker%20pages/doctor_page.dart';
 import 'package:signtalk/utils/constants.dart';
 
 class ThemeCard extends StatefulWidget {
@@ -40,8 +40,7 @@ class _ThemeCardState extends State<ThemeCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  Translation(category: widget.category),
+              builder: (context) => Translation(category: widget.category),
             ),
           );
         },
@@ -53,16 +52,17 @@ class _ThemeCardState extends State<ThemeCard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             gradient: LinearGradient(
-              colors: _isHovered
-                  ? [ColorsConstant.primary, ColorsConstant.extra]
-                  : [ColorsConstant.secondary, ColorsConstant.extra],
+              colors:
+                  _isHovered
+                      ? [ColorsConstant.primary, ColorsConstant.extra]
+                      : [ColorsConstant.secondary, ColorsConstant.extra],
             ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(_isHovered ? 0.25 : 0.15),
                 blurRadius: _isHovered ? 16 : 8,
                 offset: const Offset(0, 6),
-              )
+              ),
             ],
           ),
 
@@ -72,8 +72,9 @@ class _ThemeCardState extends State<ThemeCard> {
               children: [
                 // ✅ Image (fixed height)
                 ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                   child: Image.asset(
                     widget.image,
                     height: isMobile ? 280 : 140,
@@ -114,8 +115,7 @@ class _ThemeCardState extends State<ThemeCard> {
                           overflow: TextOverflow.ellipsis,
                           style: FontsConstant.bodyMedium.copyWith(
                             fontSize: isMobile ? 12 : 14,
-                            color:
-                                ColorsConstant.tertiary.withOpacity(0.85),
+                            color: ColorsConstant.tertiary.withOpacity(0.85),
                           ),
                         ),
                       ],

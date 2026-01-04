@@ -21,11 +21,11 @@ class SignToTextProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _apiResponse = await ApiService.sendVideo(videoFile, category);
-      debugPrint("✅ API Response: $_apiResponse");
+      debugPrint("API Response: $_apiResponse");
       _errorMessage = null;
     } catch (e, stack) {
       _errorMessage = e.toString();
-      debugPrint("❌ Error sending video: $e\n$stack");
+      debugPrint("Error sending video: $e\n$stack");
     } finally {
       _setLoading(false);
     }

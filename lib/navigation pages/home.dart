@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/components/app_side_drawer.dart';
 import 'package:signtalk/components/customAppBar.dart';
+import 'package:signtalk/components/exploreButton.dart';
 import 'package:signtalk/components/infoCard.dart';
+import 'package:signtalk/navigation%20pages/user_mode.dart';
 import 'package:signtalk/utils/constants.dart';
 import 'package:lottie/lottie.dart';
+import 'package:signtalk/utils/page_transition_direction.dart';
+import 'package:signtalk/utils/slide_page_route.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,6 +15,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: CustomAppBar(),
       endDrawer: const AppSideDrawer(),
       backgroundColor: Colors.white,
@@ -134,10 +139,15 @@ Widget _buildDesktopLayout(BuildContext context) {
           children: [
             // Background Lottie
             Positioned.fill(
-              child: Lottie.asset(
-                'assets/lotties/Conversation.json',
-                fit: BoxFit.contain,
+              child: Image.asset(
+                'assets/images/background1.jpg',
+                fit: BoxFit.cover,
+                opacity: const AlwaysStoppedAnimation(0.3),
               ),
+              // child: Lottie.asset(
+              //   'assets/lotties/Conversation.json',
+              //   fit: BoxFit.contain,
+              // ),
             ),
 
             // Main content
@@ -162,25 +172,22 @@ Widget _buildDesktopLayout(BuildContext context) {
                                     fontSize: 42,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 100),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Bridge ",
-                                        style: FontsConstant.headingMedium
-                                            .copyWith(fontSize: 42),
-                                      ),
-                                      Text(
-                                        "Gaps",
-                                        style: FontsConstant.headingMedium
-                                            .copyWith(
-                                              fontSize: 42,
-                                              color: ColorsConstant.extra,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Bridge ",
+                                      style: FontsConstant.headingMedium
+                                          .copyWith(fontSize: 42),
+                                    ),
+                                    Text(
+                                      "Gaps",
+                                      style: FontsConstant.headingMedium
+                                          .copyWith(
+                                            fontSize: 42,
+                                            color: ColorsConstant.extra,
+                                          ),
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   "Care Flows",
@@ -188,68 +195,95 @@ Widget _buildDesktopLayout(BuildContext context) {
                                     fontSize: 42,
                                   ),
                                 ),
+                                Text(
+                                  "Bridging communication gaps between \ndoctors and hearing/speech-impaired patients \nfor inclusive healthcare in Ghana.",
+                                  style: FontsConstant.headingMedium.copyWith(
+                                    color: ColorsConstant.extra,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 25.0,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap:
+                                        () => Navigator.push(
+                                          context,
+                                          SlidePageRoute(
+                                            page: UserMode(),
+                                            direction:
+                                                PageTransitionDirection.right,
+                                          ),
+                                        ),
+                                    child: exploreButton(),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ),
-
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Bridging communication gaps between \ndoctors and hearing/speech-impaired patients \nfor inclusive healthcare in Ghana.",
-                                style: FontsConstant.headingMedium.copyWith(
-                                  color: ColorsConstant.extra,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
 
-                // Right panel cards
+                //Right panel cards
                 Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, right: 20),
-                    child: Column(
-                      children: [
-                        InfoCard(
-                          onPressed:
-                              () =>
-                                  Navigator.pushNamed(context, '/healthWorker'),
-                          title: "Health Worker",
-                          subtitle:
-                              "Use SignTalk to communicate with hearing/speech-impaired patients.",
-                          buttonName: "Let's Talk",
-                        ),
-                        const SizedBox(height: 20),
-                        InfoCard(
-                          onPressed: () {},
-                          // Navigator.pushNamed(context, '/hospitalListing'),
-                          title: "Patient",
-                          subtitle:
-                              "Find the nearest hospital that uses SignTalk for sign language interpretation.",
-                          buttonName: "Find Hospital",
-                        ),
-                        const SizedBox(height: 20),
-                        InfoCard(
-                          // onPressed: () {},
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/demoPage'),
-                          title: "Education",
-                          subtitle: "Learn with SignTalk, anytime, anywhere.",
-                          buttonName: "Start Learning",
-                        ),
-                      ],
+                  flex: 3,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: ColorsConstant.extra.withOpacity(0.05),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/akwaaba.png'),
+                        fit: BoxFit.cover,
+                        opacity: 0.9,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
                     ),
                   ),
                 ),
+
+                // // Right panel cards
+                // Expanded(
+                //   flex: 1,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 20, right: 20),
+                //     child: Column(
+                //       children: [
+                //         InfoCard(
+                //           onPressed:
+                //               () =>
+                //                   Navigator.pushNamed(context, '/healthWorker'),
+                //           title: "Health Worker",
+                //           subtitle:
+                //               "Use SignTalk to communicate with hearing/speech-impaired patients.",
+                //           buttonName: "Let's Talk",
+                //         ),
+                //         const SizedBox(height: 20),
+                //         InfoCard(
+                //           onPressed: () {},
+                //           // Navigator.pushNamed(context, '/hospitalListing'),
+                //           title: "Patient",
+                //           subtitle:
+                //               "Find the nearest hospital that uses SignTalk for sign language interpretation.",
+                //           buttonName: "Find Hospital",
+                //         ),
+                //         const SizedBox(height: 20),
+                //         InfoCard(
+                //           // onPressed: () {},
+                //           onPressed:
+                //               () => Navigator.pushNamed(context, '/demoPage'),
+                //           title: "Education",
+                //           subtitle: "Learn with SignTalk, anytime, anywhere.",
+                //           buttonName: "Start Learning",
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ],

@@ -8,10 +8,9 @@ class ApiConstants {
   static const String signToText = "/sign-to-text/";
 }
 
-
 class ColorsConstant {
-  static const Color extra = Color(0xFF1A3A5B);
-  static const Color primary = Color(0xFF3674B5); // Deep Blue
+  static const Color extra = Color.fromARGB(255, 25, 82, 21);
+  static const Color primary = Color.fromARGB(255, 69, 95, 67); // Deep Blue
   static const Color secondary = Color(0xFF578FCA); // Medium Blue
   static const Color tertiary = Color(0xFFA1E3F9); // Light Sky Blue
   static const Color accent = Color(0xFFD1F8EF); // Soft Aqua
