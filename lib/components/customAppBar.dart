@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () => Navigator.pushNamed(context, '/'),
       child: Row(
         children: [
-          Image.asset("assets/images/logo1.png", height: 80, width: 80),
+          Image.asset("assets/images/logo.png", height: 80, width: 80),
           const SizedBox(width: 5),
           Text(
             "SignTalkGH",

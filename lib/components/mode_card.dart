@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/navigation%20pages/healthWorker%20pages/doctor_page.dart';
+import 'package:signtalk/navigation%20pages/patient%20pages/patient_page.dart';
 import 'package:signtalk/utils/constants.dart';
+import 'package:signtalk/utils/page_transition_direction.dart';
+import 'package:signtalk/utils/slide_page_route.dart';
 
 class ModeCard extends StatefulWidget {
   final String image;
@@ -35,12 +38,34 @@ class _ModeCardState extends State<ModeCard> {
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => Translation(category: widget.mode),
-            ),
-          );
+          if (widget.mode == "doctor") {
+            Navigator.push(
+              context,
+              SlidePageRoute(
+                page: Translation(category: widget.mode),
+                direction: PageTransitionDirection.up,
+              ),
+            );
+            return;
+          }
+          if (widget.mode == "patient") {
+            Navigator.push(
+              context,
+              SlidePageRoute(
+                page: PatientPage(),
+                direction: PageTransitionDirection.down,
+              ),
+            );
+            return;
+          }
+          if (widget.mode == "learner") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => Translation(category: widget.mode),
+              ),
+            );
+          }
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),

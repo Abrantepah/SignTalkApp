@@ -253,7 +253,7 @@ class DesktopTabletBanner extends StatelessWidget {
                   }
                 },
                 icon: const Icon(Icons.arrow_forward),
-                label: const Text("Contact Us"),
+                label: const Text("Learn More"),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 28,
