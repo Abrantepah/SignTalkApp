@@ -3,6 +3,7 @@ import 'package:signtalk/components/app_side_drawer.dart';
 import 'package:signtalk/components/customAppBar.dart';
 import 'package:signtalk/components/exploreButton.dart';
 import 'package:signtalk/components/infoCard.dart';
+import 'package:signtalk/components/solar_system_amination.dart';
 import 'package:signtalk/navigation%20pages/user_mode.dart';
 import 'package:signtalk/utils/constants.dart';
 import 'package:lottie/lottie.dart';
@@ -140,7 +141,7 @@ Widget _buildDesktopLayout(BuildContext context) {
             // Background Lottie
             Positioned.fill(
               child: Image.asset(
-                'assets/images/background1.jpg',
+                'assets/images/background3.jpg',
                 fit: BoxFit.cover,
                 opacity: const AlwaysStoppedAnimation(0.3),
               ),
@@ -167,43 +168,35 @@ Widget _buildDesktopLayout(BuildContext context) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Hands Speak",
+                                  "Hands speak",
                                   style: FontsConstant.headingMedium.copyWith(
-                                    fontSize: 42,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Bridge ",
-                                      style: FontsConstant.headingMedium
-                                          .copyWith(fontSize: 42),
-                                    ),
-                                    Text(
-                                      "Gaps",
-                                      style: FontsConstant.headingMedium
-                                          .copyWith(
-                                            fontSize: 42,
-                                            color: ColorsConstant.extra,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "Care Flows",
-                                  style: FontsConstant.headingMedium.copyWith(
-                                    fontSize: 42,
+                                    fontSize: 52,
+                                    color: ColorsConstant.darkPurple,
                                   ),
                                 ),
                                 Text(
-                                  "Bridging communication gaps between \ndoctors and hearing/speech-impaired patients \nfor inclusive healthcare in Ghana.",
+                                  "gaps are bridged",
                                   style: FontsConstant.headingMedium.copyWith(
-                                    color: ColorsConstant.extra,
+                                    fontSize: 52,
+                                    color: ColorsConstant.darkPurple,
+                                  ),
+                                ),
+                                Text(
+                                  "care accessible to all!",
+                                  style: FontsConstant.headingMedium.copyWith(
+                                    fontSize: 52,
+                                    color: ColorsConstant.darkPurple,
+                                  ),
+                                ),
+                                Text(
+                                  "Bridging communication gaps between doctors and hearing/speech-impaired patients for inclusive healthcare in Ghana.",
+                                  style: FontsConstant.headingMedium.copyWith(
+                                    color: ColorsConstant.secondary,
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 25.0,
+                                    vertical: 80.0,
                                   ),
                                   child: GestureDetector(
                                     onTap:
@@ -229,21 +222,22 @@ Widget _buildDesktopLayout(BuildContext context) {
 
                 //Right panel cards
                 Expanded(
-                  flex: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ColorsConstant.extra.withOpacity(0.05),
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/akwaaba.png'),
-                        fit: BoxFit.cover,
-                        opacity: 0.9,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      ),
-                    ),
-                  ),
+                  flex: 4,
+                  child: SolarSystemAnimation(),
+                  // child: Container(
+                  //   decoration: BoxDecoration(
+                  //     color: ColorsConstant.extra.withOpacity(0.05),
+                  //     image: DecorationImage(
+                  //       image: AssetImage('assets/images/akwaaba.png'),
+                  //       fit: BoxFit.cover,
+                  //       opacity: 0.9,
+                  //     ),
+                  //     borderRadius: const BorderRadius.only(
+                  //       topLeft: Radius.circular(20),
+                  //       bottomLeft: Radius.circular(20),
+                  //     ),
+                  //   ),
+                  // ),
                 ),
 
                 // // Right panel cards

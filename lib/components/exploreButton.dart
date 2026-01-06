@@ -3,14 +3,15 @@ import 'package:signtalk/utils/constants.dart';
 
 Widget exploreButton() {
   return ClipRRect(
-    borderRadius: BorderRadius.circular(20),
+    borderRadius: BorderRadius.circular(30),
     child: Container(
       height: 50,
+      width: 300,
       decoration: BoxDecoration(
         gradient: const RadialGradient(
           colors: [
-            ColorsConstant.extra,
-            ColorsConstant.primary,
+            ColorsConstant.darkPurple,
+            ColorsConstant.secondary,
           ], // light white/blue glow
           center: Alignment.topLeft,
           radius: 4,

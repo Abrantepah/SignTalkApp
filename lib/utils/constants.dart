@@ -16,6 +16,9 @@ class ColorsConstant {
   static const Color accent = Color(0xFFD1F8EF); // Soft Aqua
   static const Color textColor = Color(0xFF0A0A0A); // Dark Text
   static const Color background = Color(0xFFF8FAFC); // Very Light Background
+  static const Color softPurple = Color(0xFF6C5CE7); // Soft Purple
+  static const Color safeRed = Color.fromARGB(255, 212, 8, 8); // Light Gray
+  static const Color darkPurple = Color(0xFF2C2F48); // Dark Gray
 }
 
 class FontsConstant {

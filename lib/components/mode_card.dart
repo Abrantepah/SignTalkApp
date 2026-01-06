@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signtalk/navigation%20pages/healthWorker%20pages/doctor_page.dart';
+import 'package:signtalk/navigation%20pages/healthWorker%20pages/doctor_page2.dart';
 import 'package:signtalk/navigation%20pages/patient%20pages/patient_page.dart';
 import 'package:signtalk/utils/constants.dart';
 import 'package:signtalk/utils/page_transition_direction.dart';
@@ -42,7 +43,7 @@ class _ModeCardState extends State<ModeCard> {
             Navigator.push(
               context,
               SlidePageRoute(
-                page: Translation(category: widget.mode),
+                page: DoctorPage(),
                 direction: PageTransitionDirection.up,
               ),
             );

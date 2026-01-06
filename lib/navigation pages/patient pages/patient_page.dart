@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signtalk/components/customAppBar.dart';
+import 'package:signtalk/components/patient_connection_code_modal.dart';
 import 'package:signtalk/utils/constants.dart';
 
 class PatientPage extends StatefulWidget {
@@ -7,6 +7,28 @@ class PatientPage extends StatefulWidget {
 
   @override
   State<PatientPage> createState() => _PatientPageState();
+}
+
+void showConnectCodeModal(BuildContext context) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: "Connect",
+    barrierColor: Colors.black.withOpacity(0.5),
+    transitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (_, __, ___) {
+      return const PatientConnectCodeModal();
+    },
+    transitionBuilder: (_, animation, __, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, -1),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  );
 }
 
 class _PatientPageState extends State<PatientPage> {
@@ -19,32 +41,36 @@ class _PatientPageState extends State<PatientPage> {
             children: [
               // Background image
               Positioned.fill(
-                child: Image.asset('assets/images/sign2.jpg', fit: BoxFit.fill),
+                child: Image.asset(
+                  'assets/images/sign2.jpg',
+                  fit: BoxFit.fill,
+                  opacity: AlwaysStoppedAnimation(0.8),
+                ),
               ),
 
               // Gradient overlay
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white.withOpacity(0.6),
+              // Positioned.fill(
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       gradient: LinearGradient(
+              //         begin: Alignment.topCenter,
+              //         end: Alignment.bottomCenter,
+              //         colors: [
+              //           Colors.white.withOpacity(0.6),
 
-                        Colors.greenAccent.withOpacity(0.4),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              //           Colors.greenAccent.withOpacity(0.4),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
 
           Row(
             children: [
               // MAIN VIDEO AREA
-              Expanded(flex: 7, child: _buildVideoArea()),
+              Expanded(flex: 7, child: _buildVideoArea(context)),
 
               // SIDE CHAT PANEL
               // SIDE CHAT PANEL
@@ -69,23 +95,53 @@ class _PatientPageState extends State<PatientPage> {
 }
 
 // SIDE VIDEO PANEL
-Widget _buildVideoArea() {
+Widget _buildVideoArea(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(16),
     child: Column(
       children: [
-        // VIDEO PLAYER
+        // VIDEO PLAYER WITH CAPTION
         Expanded(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: Colors.white.withOpacity(0.5),
-              child: Center(
-                child: Text(
-                  "Patient Camera Feed",
-                  style: TextStyle(color: Colors.white70),
+            child: Stack(
+              children: [
+                // Video / Avatar
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.white.withOpacity(0.5),
+                    child: Center(
+                      // child: Image.asset(
+                      //   'assets/images/avatar_thumbnail.png',
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ),
+                  ),
                 ),
-              ),
+
+                // TOP CAPTION OVERLAY
+                Positioned(
+                  bottom: 12,
+                  left: 12,
+                  right: 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Translated Sign Output",
+                        style: FontsConstant.bodyMedium.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -96,10 +152,12 @@ Widget _buildVideoArea() {
         Row(
           children: [
             _liveBadge(),
-            const Spacer(),
-            Icon(Icons.play_arrow, color: Colors.white),
             const SizedBox(width: 12),
-            Icon(Icons.volume_up, color: Colors.white),
+            _connectionButton(context),
+            const Spacer(),
+            const Icon(Icons.play_arrow, color: Colors.white),
+            const SizedBox(width: 12),
+            const Icon(Icons.fullscreen, color: Colors.white),
           ],
         ),
       ],
@@ -112,10 +170,47 @@ Widget _liveBadge() {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     decoration: BoxDecoration(
-      color: Colors.purple,
-      borderRadius: BorderRadius.circular(20),
+      color: ColorsConstant.safeRed,
+      borderRadius: BorderRadius.circular(10),
     ),
-    child: Text("LIVE", style: FontsConstant.buttonText),
+    child: Row(
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text("LIVE", style: FontsConstant.buttonText),
+      ],
+    ),
+  );
+}
+
+Widget _connectionButton(BuildContext context) {
+  return ElevatedButton(
+    onPressed: () {
+      // Handle connection logic here
+      showConnectCodeModal(context);
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: ColorsConstant.darkPurple,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.link, color: Colors.white),
+        const SizedBox(width: 6),
+        Text(
+          "Connect to Doctor",
+          style: FontsConstant.buttonText.copyWith(fontSize: 16),
+        ),
+      ],
+    ),
   );
 }
 
@@ -126,7 +221,7 @@ Widget _buildSidePanel() {
     child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF2C2F48),
+        color: ColorsConstant.darkPurple,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -143,18 +238,18 @@ Widget _buildSidePanel() {
                       color: Colors.white,
                     ),
                   ),
-                  Icon(
-                    Icons.settings_remote_sharp,
-                    color: Colors.green,
-                    size: 25,
-                  ),
+                  const SizedBox(width: 8),
+                  //show this if only there is a connection between doctor and patient devices
+                  Icon(Icons.diversity_3, color: Colors.green, size: 25),
                 ],
               ),
               //use this to refresh chat
               Icon(Icons.sync_outlined, color: Colors.white, size: 25),
             ],
           ),
-
+          const SizedBox(height: 16),
+          //divider
+          Container(height: 1, color: Colors.white.withOpacity(0.2)),
           const SizedBox(height: 16),
 
           // CHAT / TRANSLATION FEED
@@ -278,14 +373,23 @@ Widget _buildRecentVideos() {
               _videoThumbnail(
                 "Please repeat the sign",
                 'assets/images/laboratory.jpg',
+                "4 mins",
+                1,
+                "10:36 AM",
               ),
               _videoThumbnail(
-                "Please repeat the sign",
+                "Where is the hospital entrance?",
                 'assets/images/laboratory.jpg',
+                "2 mins",
+                1,
+                "10:39 AM",
               ),
               _videoThumbnail(
-                "Please repeat the sign",
+                "Have you taken your medication?",
                 'assets/images/laboratory.jpg',
+                "2 mins",
+                1,
+                "10:28 AM",
               ),
             ],
           ),
@@ -295,13 +399,19 @@ Widget _buildRecentVideos() {
   );
 }
 
-//VIDEO THUMBNAIL WIDGET
-Widget _videoThumbnail(String title, thumbnailPath) {
+Widget _videoThumbnail(
+  String title,
+  String thumbnailPath,
+  String duration,
+  int patientCount,
+  String time,
+) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Thumbnail
         ClipRRect(
           borderRadius: BorderRadius.circular(14),
           child: Image.asset(
@@ -312,29 +422,35 @@ Widget _videoThumbnail(String title, thumbnailPath) {
           ),
         ),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        const SizedBox(width: 10),
+
+        // ✅ THIS IS THE FIX
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
                 style: FontsConstant.headingMedium.copyWith(
                   color: Colors.white,
                   fontSize: 16,
                 ),
               ),
+              const SizedBox(height: 6),
+              Text(
+                "Duration: $duration",
+                style: FontsConstant.bodyMedium.copyWith(color: Colors.white70),
+              ),
               const SizedBox(height: 3),
               Text(
-                "Patient: 1",
+                "Patient: #$patientCount",
                 style: FontsConstant.bodyMedium.copyWith(color: Colors.white70),
               ),
               Text(
-                "Duration: 2 mins",
-                style: FontsConstant.bodyMedium.copyWith(color: Colors.white70),
-              ),
-              Text(
-                'Time: 10:30 AM',
+                'Time: $time',
                 style: FontsConstant.bodyMedium.copyWith(color: Colors.white70),
               ),
             ],
